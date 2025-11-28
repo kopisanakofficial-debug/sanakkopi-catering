@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sanak Kopi — Paket & Booking</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --brand-orange: #EE7A2E;
+      --brand-orange-2:#F99A3A;
+      --brand-dark: #5A2E0E;
+      --bg-cream: #FBF3EA;
+      --card-white: #ffffff;
+      --muted: #7a6a5e;
+      --glass: rgba(255,255,255,0.6);
+      --shadow: 0 12px 30px rgba(20,16,12,0.06);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      background:linear-gradient(180deg,#fff7ef 0%, #fbf0dd 100%);
+      color:var(--brand-dark);
+      -webkit-font-smoothing:antialiased;
+      line-height:1.45;
+      overflow-x:hidden;
+    }
+
+    /* --- Animations --- */
+    @keyframes fadeInUp { from{opacity:0; transform:translateY(12px)} to{opacity:1; transform:translateY(0)} }
+    @keyframes popIn { from{opacity:0; transform:scale(.96)} to{opacity:1; transform:scale(1)} }
+    .fade-up { animation: fadeInUp .6s ease both; }
+    .pop { animation: popIn .22s ease both; }
+
+    /* Header / Hero */
+    header.hero{
+      text-align:center;
+      padding:64px 20px 40px;
+      position:relative;
+      overflow:hidden;
+    }
+    .logo {
+      width:300px;
+      display:block;
+      margin:0 auto 14px;
+      animation:popIn .35s ease both;
+    }
+    .hero h1{
+      font-family:"Playfair Display",serif;
+      font-size:38px;
+      margin:0;
+      color:var(--brand-dark);
+      letter-spacing:0.3px;
+      animation:fadeInUp .45s ease both;
+    }
+    .hero p.lead{
+      margin:10px 0 0;
+      color:var(--muted);
+      font-size:15px;
+      animation:fadeInUp .55s ease both;
+    }
+
+    /* Pricing / Cards layout */
+    .pricing {
+      max-width:1200px;
+      margin:24px auto 60px;
+      padding:0 20px;
+    }
+    .pricing-title{
+      text-align:center;
+      font-family:"Playfair Display",serif;
+      font-size:26px;
+      margin:6px 0 22px;
+      color:var(--brand-dark);
+      animation:fadeInUp .5s ease both;
+    }
+
+    .cards {
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:22px;
+    }
+
+    .card {
+      background:var(--card-white);
+      border-radius:14px;
+      padding:0;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(90,46,14,0.04);
+      transition: transform .16s ease, box-shadow .16s ease;
+      opacity:0;
+      transform:translateY(12px);
+      animation:fadeInUp .6s ease both;
+    }
+    .card:nth-child(1){ animation-delay:.08s }
+    .card:nth-child(2){ animation-delay:.16s }
+    .card:nth-child(3){ animation-delay:.24s }
+
+    .card:hover{ transform:translateY(-8px) scale(1.01); box-shadow:0 18px 40px rgba(20,16,12,0.09); }
+
+    /* top gradient band */
+    .card .band {
+      padding:22px 18px;
+      color:#fff;
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .band .label{ font-size:15px; opacity:0.95; letter-spacing:0.6px }
+    .band .price { font-family:"Playfair Display",serif; font-size:20px; }
+
+    .band.premium{ background: linear-gradient(90deg,#f29c29,#d86b00); }
+    .band.standard{ background: linear-gradient(90deg,#3553ff,#5d32ff); }
+    .band.basic{ background: linear-gradient(90deg,#1db954,#0fb678); }
+
+    .card .content {
+      padding:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(254,252,250,1));
+    }
+
+    .card .min {
+      font-weight:700;
+      margin-bottom:10px;
+      color:var(--brand-dark);
+    }
+    .card ul {
+      margin:0 0 18px 18px;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .card .actions {
+      padding:12px 18px 20px;
+      display:flex;
+      justify-content:center;
+    }
+    .btn {
+      appearance:none;
+      border:0;
+      padding:12px 18px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:800;
+      color: #fff;
+      background: linear-gradient(90deg, var(--brand-orange), var(--brand-orange-2));
+      box-shadow: 0 10px 20px rgba(238,122,46,0.15);
+      transition: transform .12s ease, box-shadow .12s ease;
+      width:100%;
+      max-width:320px;
+      font-size:16px;
+    }
+    .btn.secondary {
+      background: linear-gradient(90deg,#6b6b6b,#9a9a9a);
+    }
+    .btn:active{ transform:translateY(1px); }
+    .btn:hover{ box-shadow:0 14px 30px rgba(0,0,0,0.08) }
+
+    .badge {
+      display:inline-block;
+      padding:6px 10px;
+      background:rgba(255,255,255,0.12);
+      border-radius:999px;
+      font-size:12px;
+      color:rgba(255,255,255,0.95);
+      font-weight:800;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* Modal */
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(10,10,10,0.4);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:1000;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .14s ease;
+      backdrop-filter: blur(2px);
+    }
+    .modal-backdrop.open{ opacity:1; pointer-events:auto; }
+    .modal {
+      width: 96%;
+      max-width:720px;
+      background:var(--card-white);
+      border-radius:12px;
+      padding:20px;
+      box-shadow: 0 18px 40px rgba(20,16,12,0.12);
+      transform: translateY(8px) scale(.985);
+      transition: transform .18s ease;
+    }
+    .modal-backdrop.open .modal{ transform: translateY(0) scale(1); }
+
+    .modal-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px; }
+    .modal-head h3{ margin:0; font-family:"Playfair Display",serif; font-size:20px; color:var(--brand-dark); }
+    .close { background:transparent; border:0; font-size:20px; cursor:pointer; color:var(--muted); }
+
+    .modal-body { display:grid; grid-template-columns: 1fr 240px; gap:16px; align-items:start; }
+    .modal-body label{ font-size:13px; color:var(--muted); display:block; margin-bottom:6px;}
+    .modal-body input[type="number"], .modal-body .info {
+      width:100%;
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid rgba(10,10,10,0.06);
+      font-size:15px;
+      margin-bottom:10px;
+    }
+    .summary {
+      background:linear-gradient(180deg,#fffbf8,#fff);
+      border-radius:10px;
+      padding:14px;
+      font-weight:700;
+      text-align:center;
+      color:var(--brand-dark);
+      box-shadow:0 8px 18px rgba(20,16,12,0.04);
+    }
+    .small { font-weight:400; font-size:13px; color:var(--muted); margin-top:6px; text-align:center; }
+
+    /* Menu Signature section */
+    .menu-wrap {
+      max-width:1100px;
+      margin:36px auto 80px;
+      padding:0 20px;
+    }
+    .menu-title{
+      text-align:center;
+      font-family:"Playfair Display",serif;
+      font-size:24px;
+      margin:6px 0 18px;
+      color:var(--brand-dark);
+      animation:fadeInUp .5s ease both;
+    }
+    .menu-grid {
+      background: linear-gradient(180deg,#fff,#fff);
+      padding:28px;
+      border-radius:18px;
+      box-shadow:0 18px 40px rgba(20,16,12,0.06);
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:18px;
+    }
+    .menu-card {
+      background:var(--card-white);
+      border-radius:12px;
+      padding:18px;
+      box-shadow:0 10px 22px rgba(20,16,12,0.06);
+      transition: transform .14s ease, box-shadow .14s ease;
+      cursor:default;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      animation:fadeInUp .6s ease both;
+    }
+    .menu-card:hover{ transform:translateY(-8px); box-shadow:0 18px 40px rgba(20,16,12,0.09); }
+    .menu-icon {
+      width:44px; height:44px; border-radius:10px; background:linear-gradient(180deg,#fff,#fff); display:flex; align-items:center; justify-content:center; color:var(--brand-orange); font-size:20px; border:1px solid rgba(0,0,0,0.03);
+    }
+    .menu-title-2{ font-weight:800; margin:0 0 6px; }
+    .menu-desc{ margin:0; color:var(--muted); font-size:14px }
+
+    /* footer */
+    footer{ text-align:center; padding:28px 20px 48px; color:var(--muted); font-size:14px; background:linear-gradient(180deg, rgba(234,135,55,0.06), rgba(234,135,55,0.12)); margin-top:20px; }
+
+    /* responsive */
+    @media (max-width:1100px){
+      .cards{ grid-template-columns: 1fr 1fr; }
+      .menu-grid{ grid-template-columns: repeat(2, 1fr) }
+    }
+    @media (max-width:720px){
+      .cards{ grid-template-columns: 1fr; }
+      .menu-grid{ grid-template-columns: 1fr; }
+      .modal-body{ grid-template-columns: 1fr; }
+      .modal { max-width: 94%; }
+      .logo { width:100px; }
+      .hero h1{ font: size 100px;px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="hero" role="banner">
+    <!-- place your logo file name 'logo.png' in same folder -->
+    <img src="logo.png" alt="Sanak Kopi" class="logo" />
+    <h1>Sanak Kopi</h1>
+    <p class="lead">Catering Kopi untuk event — Bukan Sekedar Kopi .</p>
+  </header>
+
+  <!-- PRICING CARDS -->
+  <main class="pricing" role="main">
+    <h2 class="pricing-title">Pilih Paket Anda</h2>
+
+    <section class="cards" aria-label="Paket">
+
+      <!-- PREMIUM -->
+      <article class="card" data-key="premium" tabindex="0" aria-labelledby="p-title-premium">
+        <div class="band premium">
+          <div class="label"><span id="p-title-premium">PREMIUM</span></div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="badge">Best Value</div>
+            <div class="price">Rp 24.000</div>
+          </div>
+        </div>
+
+        <div class="content">
+          <div class="min">Minimal Order: <strong>200 cups</strong></div>
+          <ul>
+            <li>Pilihan 3 Menu</li>
+            <li>Free Transport (maks 20 km)</li>
+            <li>Premium Cup — Customize</li>
+            <li>Free Signage</li>
+            <li>Free 20 cups untuk keluarga inti</li>
+          </ul>
+        </div>
+
+        <div class="actions">
+          <button class="btn" data-pkg="premium" data-price="24000" data-min="200">Pilih Paket Ini</button>
+        </div>
+      </article>
+
+      <!-- STANDARD -->
+      <article class="card" data-key="standard" tabindex="0" aria-labelledby="p-title-standard">
+        <div class="band standard">
+          <div class="label"><span id="p-title-standard">STANDARD</span></div>
+          <div class="price">Rp 25.000</div>
+        </div>
+
+        <div class="content">
+          <div class="min">Minimal Order: <strong>100 cups</strong></div>
+          <ul>
+            <li>Pilihan 2 Menu</li>
+            <li>Transport sesuai lokasi</li>
+            <li>Free Signage</li>
+          </ul>
+        </div>
+
+        <div class="actions">
+          <button class="btn" data-pkg="standard" data-price="25000" data-min="100">Pilih Paket Ini</button>
+        </div>
+      </article>
+
+      <!-- BASIC -->
+      <article class="card" data-key="basic" tabindex="0" aria-labelledby="p-title-basic">
+        <div class="band basic">
+          <div class="label"><span id="p-title-basic">BASIC</span></div>
+          <div class="price">Rp 30.000</div>
+        </div>
+
+        <div class="content">
+          <div class="min">Minimal Order: <strong>50 cups</strong></div>
+          <ul>
+            <li>1 Menu (Kopi Susu Aren)</li>
+            <li>Transport sesuai lokasi</li>
+            <li>Free Signage</li>
+          </ul>
+        </div>
+
+        <div class="actions">
+          <button class="btn" data-pkg="basic" data-price="30000" data-min="50">Pilih Paket Ini</button>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <!-- Menu Signature -->
+  <section class="menu-wrap" aria-label="Menu Signature">
+    <h2 class="menu-title">Menu Signature</h2>
+
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-icon">☕</div>
+        <div>
+          <h4 class="menu-title-2">Kopi Susu Aren</h4>
+          <p class="menu-desc">Perpaduan kopi pilihan dengan manisnya aren — lembut dan nikmat.</p>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-icon">🍫</div>
+        <div>
+          <h4 class="menu-title-2">Choco Hazelnut</h4>
+          <p class="menu-desc">Perpaduan cokelat lembut dan hazelnut creamy — favorit semua usia.</p>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-icon">🍵</div>
+        <div>
+          <h4 class="menu-title-2">Matcha</h4>
+          <p class="menu-desc">Matcha Jepang premium dengan rasa lembut, aroma menyegarkan.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL kalkulator -->
+  <div class="modal-backdrop" id="modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-head">
+        <h3 id="modal-title">Kalkulator Pesanan</h3>
+        <button class="close" id="closeModal" aria-label="Tutup">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="left">
+          <div style="margin-bottom:10px">
+            <div style="font-size:13px;color:var(--muted)">Paket</div>
+            <div id="chosenPackage" style="font-weight:700;font-size:18px;margin-top:6px;color:var(--brand-dark)">—</div>
+          </div>
+
+          <label for="qty">Jumlah cup</label>
+          <input id="qty" type="number" min="1" value="100" />
+
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button id="dec" class="btn secondary" style="max-width:110px;padding:8px 10px">-</button>
+            <button id="inc" class="btn secondary" style="max-width:110px;padding:8px 10px">+</button>
+          </div>
+
+          <div style="margin-top:12px">
+            <div style="font-size:13px;color:var(--muted)">Catatan (opsional)</div>
+            <input id="note" placeholder="Contoh: acara indoor, area parkir..." class="info" style="margin-top:6px"/>
+          </div>
+        </div>
+
+        <div class="right">
+          <div class="summary" id="summaryBox">
+            <div style="font-size:13px;color:var(--muted)">Harga per cup</div>
+            <div id="pricePerCup" style="font-size:20px;margin-top:6px;font-weight:800">-</div>
+
+            <div style="height:10px"></div>
+
+            <div style="font-size:13px;color:var(--muted)">Total</div>
+            <div id="totalPrice" style="font-size:20px;margin-top:6px;font-weight:900">-</div>
+
+            <div style="margin-top:10px;font-size:13px;color:var(--muted)">DP 30% / 50%</div>
+            <div style="margin-top:6px;font-weight:700" id="dpInfo">-</div>
+
+            <div style="margin-top:12px">
+              <button id="bookBtn" class="btn" style="width:100%">Booking Sekarang</button>
+            </div>
+
+            <div class="small">Nomor WhatsApp akan terbuka saat klik tombol Booking</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    © <span id="year"></span> Sanak Kopi • Proposal berlaku 30 hari sejak diterbitkan
+  </footer>
+
+<script>
+  // Helper: format currency
+  function fmt(n){
+    return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',minimumFractionDigits:0}).format(n);
+  }
+
+  const modal = document.getElementById('modal');
+  const closeModal = document.getElementById('closeModal');
+  const chosenPackage = document.getElementById('chosenPackage');
+  const pricePerCupEl = document.getElementById('pricePerCup');
+  const totalPriceEl = document.getElementById('totalPrice');
+  const dpInfo = document.getElementById('dpInfo');
+  const qtyInput = document.getElementById('qty');
+  const noteInput = document.getElementById('note');
+  const bookBtn = document.getElementById('bookBtn');
+  const decBtn = document.getElementById('dec');
+  const incBtn = document.getElementById('inc');
+
+  let current = { key:null, price:0, min:0 };
+
+  // Open modal when user clicks a package button
+  document.querySelectorAll('.card .btn').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      const pkg = btn.dataset.pkg;
+      const price = Number(btn.dataset.price);
+      const min = Number(btn.dataset.min);
+      openCalculator({key:pkg, price, min});
+    });
+  });
+
+  // keyboard: Enter on card opens
+  document.querySelectorAll('.card').forEach(card=>{
+    card.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter' || e.key === ' ') {
+        const btn = card.querySelector('.btn');
+        if(btn) btn.click();
+      }
+    });
+  });
+
+  function openCalculator(pkg){
+    current.key = pkg.key;
+    current.price = pkg.price;
+    current.min = pkg.min;
+    chosenPackage.textContent = pkg.key.toUpperCase();
+    pricePerCupEl.textContent = fmt(pkg.price);
+    qtyInput.value = Math.max(pkg.min,  (parseInt(qtyInput.value) || pkg.min));
+    updateSummary();
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    // focus first input
+    setTimeout(()=>qtyInput.focus(),150);
+  }
+
+  closeModal.addEventListener('click', closeCalc);
+  modal.addEventListener('click', (ev)=>{
+    if(ev.target === modal) closeCalc();
+  });
+
+  function closeCalc(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+
+  function updateSummary(){
+    const qty = Math.max(0, Number(qtyInput.value) || 0);
+    const price = current.price || 0;
+    const total = qty * price;
+    pricePerCupEl.textContent = fmt(price);
+    totalPriceEl.textContent = fmt(total);
+    const dp30 = Math.round(total * 0.30);
+    const dp50 = Math.round(total * 0.50);
+    dpInfo.textContent = `${fmt(dp30)} / ${fmt(dp50)}`;
+  }
+
+  decBtn.addEventListener('click', ()=>{
+    qtyInput.value = Math.max(current.min, (Number(qtyInput.value) || current.min) - 1);
+    updateSummary();
+  });
+  incBtn.addEventListener('click', ()=>{
+    qtyInput.value = (Number(qtyInput.value) || current.min) + 1;
+    updateSummary();
+  });
+
+  qtyInput.addEventListener('input', ()=>{
+    if(!current.min) return;
+    if(Number(qtyInput.value) < current.min) {
+      // no auto-correction to preserve user's entry; validation on booking
+    }
+    updateSummary();
+  });
+
+  // Booking -> open WhatsApp with prefilled message
+  bookBtn.addEventListener('click', ()=>{
+    const qty = Number(qtyInput.value) || 0;
+    if(qty < current.min){
+      alert(`Minimal order untuk paket ${current.key.toUpperCase()} adalah ${current.min} cups.`);
+      return;
+    }
+    const note = noteInput.value.trim();
+    const total = qty * current.price;
+    const dp30 = Math.round(total * 0.30);
+    const dp50 = Math.round(total * 0.50);
+
+    const waNumber = '6281280482330'; // +62 812 8048 2330
+    // Build text (URI encoded)
+    let lines = [];
+    lines.push(`Assalamualaikum Ikhwan Sanak, saya ingin memesan paket *${current.key.toUpperCase()}*.`);
+    lines.push(`Jumlah: *${qty}* cups`);
+    lines.push(`Harga per cup: *${fmt(current.price)}*`);
+    lines.push(`TOTAL: *${fmt(total)}*`);
+    lines.push(`DP 30%: *${fmt(dp30)}* | DP 50%: *${fmt(dp50)}*`);
+    if(note) lines.push(`Catatan: ${note}`);
+    lines.push(``);
+    lines.push(`Informasi pemesan: [Nama] - [No HP] - [Tanggal Acara]`);
+    const text = encodeURIComponent(lines.join('\n'));
+    const url = `https://wa.me/${waNumber}?text=${text}`;
+    window.open(url, '_blank');
+  });
+
+  // year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // accessibility: ESC closes modal
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && modal.classList.contains('open')) closeCalc();
+  });
+
+  // Small: lazy animate menu cards when in viewport
+  const menuCards = document.querySelectorAll('.menu-card');
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(ent=>{
+      if(ent.isIntersecting) { ent.target.style.animation = 'fadeInUp .5s ease both'; obs.unobserve(ent.target); }
+    });
+  }, {threshold:0.15});
+  menuCards.forEach(c=>obs.observe(c));
+</script>
+</body>
+</html>
